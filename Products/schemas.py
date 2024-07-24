@@ -5,9 +5,22 @@ class Product(BaseModel):
     description:str
     price:int
 
-# Response Model
-class responseModel(BaseModel):
-    name:str
-    description:str
+class DisplaySeller(BaseModel):
+    username:str
+    email:str
     class Config:
         orm_mode = True
+
+# Response Model
+class DisplayProduct(BaseModel):
+    name:str
+    description:str
+    seller:DisplaySeller
+    class Config:
+        orm_mode = True
+
+
+class Seller(BaseModel):
+    userName:str
+    email:str
+    password:str
