@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from .import schemas
 from .import Models
 from .database import engine, SessionLocal
+from typing import List
 
 app = FastAPI()
 
@@ -33,9 +34,11 @@ def addProduct(requestData:schemas.Product, db:Session = Depends(get_db)):
         "data":requestData
     }
 #List all products
+# @app.get('/products',response_model=List[schemas.responseModel])
 @app.get('/products')
 def getAllProducts(db:Session = Depends(get_db)):
     all_products = db.query(Models.product).all()
+    # return all_products # used for showing response model
     return{
           "message":"Listed Successfully",
           "data":all_products
