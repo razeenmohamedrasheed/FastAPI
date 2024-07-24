@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,status,Response,HTTPException
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from .import schemas
@@ -19,7 +19,7 @@ def get_db():
         db.close()
 
 # Add a product
-@app.post('/products')
+@app.post('/products',status_code=status.HTTP_201_CREATED)
 def addProduct(requestData:schemas.Product, db:Session = Depends(get_db)):
     new_product = Models.product(
         name= requestData.name,
@@ -34,7 +34,7 @@ def addProduct(requestData:schemas.Product, db:Session = Depends(get_db)):
         "data":requestData
     }
 #List all products
-# @app.get('/products',response_model=List[schemas.responseModel])
+# @app.get('/products',response_model=List[schemas.responseModel]) ==> Response model importing from schemas Page
 @app.get('/products')
 def getAllProducts(db:Session = Depends(get_db)):
     all_products = db.query(Models.product).all()
@@ -46,8 +46,10 @@ def getAllProducts(db:Session = Depends(get_db)):
 
 #Filter individual products
 @app.get('/products/{id}')
-def getIndividualProducts(id,db:Session = Depends(get_db)):
+def getIndividualProducts(id,response:Response, db:Session = Depends(get_db)):
     products = db.query(Models.product).filter(Models.product.id == id).first()
+    if not products:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="Product not found")
     return{
           "message":"Listed Successfully",
           "data":products
