@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from .database import engine
 from .import Models
 from .routers import product,sellers
+import uvicorn
 
 # import bcrypt
 
@@ -21,4 +22,8 @@ app.include_router(sellers.router)
 
 # Used to create model at BE
 Models.Base.metadata.create_all(engine)
+
+
+if __name__ == "__main__":
+    uvicorn.run(port=8000,host="0.0.0.0")
 
