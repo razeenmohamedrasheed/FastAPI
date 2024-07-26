@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from .database import engine
 from .import Models
-from .routers import product,sellers
+from .routers import product,sellers,login
 import uvicorn
 
 # import bcrypt
@@ -19,6 +19,7 @@ app = FastAPI(
 
 app.include_router(product.router)
 app.include_router(sellers.router)
+app.include_router(login.router)
 
 # Used to create model at BE
 Models.Base.metadata.create_all(engine)

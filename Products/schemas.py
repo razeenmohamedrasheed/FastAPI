@@ -24,3 +24,7 @@ class Seller(BaseModel):
     userName:str
     email:str
     password:str
+
+class Login(BaseModel):
+    username:str
+    password:str
