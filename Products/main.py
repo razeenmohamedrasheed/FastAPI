@@ -26,5 +26,5 @@ Models.Base.metadata.create_all(engine)
 
 
 if __name__ == "__main__":
-    uvicorn.run(port=8000,host="0.0.0.0")
+    uvicorn.run('Products.main:app',port=8000,host="0.0.0.0")
 
