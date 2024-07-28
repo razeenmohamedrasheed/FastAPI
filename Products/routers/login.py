@@ -6,7 +6,7 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 from datetime import datetime,timedelta,timezone
 from jose import jwt,JWTError
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 
 router = APIRouter(
     tags=['Login']
@@ -28,7 +28,7 @@ def generate_token(data:dict):
     return encoded_JWT
 
 @router.post('/login')
-def createUser(payload:schemas.Login,db: Session = Depends(get_db)):
+def userLogin(payload:OAuth2PasswordRequestForm=Depends(),db: Session = Depends(get_db)):
     user = db.query(Models.Sellers).filter(Models.Sellers.username == payload.username).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="User Not Found")
@@ -51,6 +51,6 @@ def getCurrentUser(token:str = Depends(OAuth2_scheme)):
         username:str = payload.get('sub')
         if username is None:
             raise credential_exception
-        token_data = schemas.TokenData
+        token_data = schemas.TokenData(username=username)
     except JWTError:
         raise credential_exception
