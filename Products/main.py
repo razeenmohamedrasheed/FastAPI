@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from .database import engine
-from .import Models
-from .routers import product,sellers,login
+from Products.database import engine
+from Products import Models
+from Products.routers import product,sellers,login
 import uvicorn
 
 # import bcrypt

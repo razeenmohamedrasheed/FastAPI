@@ -1,11 +1,11 @@
 from fastapi import APIRouter,Response,HTTPException,status
-from .login import getCurrentUser
+from Products.routers.login import getCurrentUser
 from sqlalchemy.orm import Session
 from fastapi.params import Depends
-from ..database import get_db
-from ..import Models
+from Products.database import get_db
+from Products import Models
 from typing import List
-from ..import schemas
+from Products import schemas
 
 router = APIRouter(
     tags=['Products']

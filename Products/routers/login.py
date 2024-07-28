@@ -1,6 +1,6 @@
 from fastapi import APIRouter,HTTPException,status
-from ..import schemas,Models
-from ..database import get_db
+from Products import schemas,Models
+from Products.database import get_db
 from fastapi.params import Depends
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
